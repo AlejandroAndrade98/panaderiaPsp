@@ -3,30 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventario de Miscelánea</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Vincula styles.css -->
+    <title>Inventario de Cafetería</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .responsive-table {
+            overflow-x: auto;
+        }
+        .image-preview {
+            max-width: 100px;
+            display: block;
+            margin: 10px 0;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Gestión de Inventario de Cafetería</h1>
+        
+        <h2>Registrar Producto</h2>
+        <form id="productForm">
+            <label for="productName">Nombre del Producto:</label>
+            <input type="text" id="productName" required>
+            <label for="brand">Marca:</label>
+            <input type="text" id="brand" required>
+            <label for="expiryDate">Fecha de Vencimiento:</label>
+            <input type="date" id="expiryDate" required>
+            <label for="netContent">Contenido Neto:</label>
+            <input type="text" id="netContent" required>
+            <label for="unitMeasure">Unidad de Medida:</label>
+            <select id="unitMeasure">
+                <option value="g">Gramos</option>
+                <option value="ml">Mililitros</option>
+            </select>
+            <label for="price">Precio (sin IVA):</label>
+            <input type="number" id="price" required>
+            <label for="quantity">Cantidad:</label>
+            <input type="number" id="quantity" required>
+            <label for="image">Imagen del Producto:</label>
+            <input type="file" id="image" accept="image/*" onchange="previewImage(event)">
+            <img id="imagePreview" class="image-preview" src="" alt="Vista previa de la imagen" style="display:none;">
+            <button type="submit">Registrar Producto</button>
+        </form>
+        
+        <h2>Inventario</h2>
+        <div class="responsive-table">
+            <table id="inventoryTable">
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Marca</th>
+                        <th>Fecha de Vencimiento</th>
+                        <th>Contenido Neto</th>
+                        <th>Unidad de Medida</th>
+                        <th>Precio (sin IVA)</th>
+                        <th>Precio (con IVA)</th>
+                        <th>Cantidad</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas de productos se llenarán aquí -->
+                </tbody>
+            </table>
+        </div>
 
-    <header>
-        <h1>Inventario Panadería</h1>
-    </header>
-
-    <main>
-        <form id="product-form">
-            <input type="text" id="product-name" placeholder="Nombre del Producto">
-            <input type="text" id="product-marca" placeholder="Marca">
-            <input type="date" id="product-date" placeholder="Fecha de vencimiento">
-            <input type="number" id="product-quantity" placeholder="Cantidad">
-
-            <button type="submit">Agregar Producto</button>
+        <h2>Ventas</h2>
+        <form id="salesForm">
+            <label for="salesProduct">Selecciona un Producto:</label>
+            <select id="salesProduct" required>
+                <!-- Opciones llenadas desde el inventario -->
+            </select>
+            <label for="salesQuantity">Cantidad:</label>
+            <input type="number" id="salesQuantity" required>
+            <button type="submit">Vender Producto</button>
         </form>
 
-        <section id="product-list">
-           
-        </section>
-    </main>
+        <h2>Movimientos de Inventario</h2>
+        <div class="responsive-table">
+            <table id="movementsTable">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas de movimientos se llenarán aquí -->
+                </tbody>
+            </table>
+        </div>
 
-    <script src="script.js"></script> <!-- Vincula script.js -->
+        <button onclick="downloadReport()">Descargar Informe</button>
+    </div>
+
+    <script>
+        const inventory = [];
+        const movements = [];
+
+        document.getElementById('productForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('productName').value;
+            const brand = document.getElementById('brand').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            const netContent = document.getElementById('netContent').value;
+            const unitMeasure = document.getElementById('unitMeasure').value;
+            const price = parseFloat(document.getElementById('price').value);
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const image = document.getElementById('image').files[0];
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                inventory.push({
+                    name,
+                    brand,
+                    expiryDate,
+                    netContent,
+                    unitMeasure,
+                    price,
+                    quantity,
+                    image: e.target.result,
+                });
+                updateInventoryTable();
+                updateSalesProductSelect();
+                document.getElementById('productForm').reset();
+                document.getElementById('imagePreview').style.display = 'none';
+            };
+            reader.readAsDataURL(image);
+        });
+
+        document.getElementById('salesForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const selectedProductIndex = document.getElementById('salesProduct').selectedIndex;
+            const quantitySold = parseInt(document.getElementById('salesQuantity').value);
+
+            if (quantitySold > inventory[selectedProductIndex].quantity) {
+                alert('No hay suficiente cantidad en el inventario.');
+                return;
+            }
+
+            const movement = {
+                type: 'Venta',
+                product: inventory[selectedProductIndex].name,
+                quantity: quantitySold,
+                date: new Date().toLocaleDateString()
+            };
+
+            movements.push(movement);
+            inventory[selectedProductIndex].quantity -= quantitySold;
+
+            updateInventoryTable();
+            updateMovementsTable();
+            document.getElementById('salesForm').reset();
+        });
+
+        function updateInventoryTable() {
+            const inventoryTableBody = document.querySelector('#inventoryTable tbody');
+            inventoryTableBody.innerHTML = '';
+            inventory.forEach((item, index) => {
+                const row = inventoryTableBody.insertRow();
+                row.innerHTML = `
+                    <td><img src="${item.image}" alt="${item.name}" style="max-width: 100px;"></td>
+                    <td>${item.name}</td>
+                    <td>${item.brand}</td>
+                    <td>${item.expiryDate}</td>
+                    <td>${item.netContent}</td>
+                    <td>${item.unitMeasure}</td>
+                    <td>$${item.price.toFixed(2)}</td>
+                    <td>$${(item.price * 1.19).toFixed(2)}</td>
+                    <td>${item.quantity}</td>
+                    <td><button onclick="editProduct(${index})">Editar</button><button onclick="deleteProduct(${index})">Eliminar</button></td>
+                `;
+            });
+        }
+
+        function updateSalesProductSelect() {
+            const salesProductSelect = document.getElementById('salesProduct');
+            salesProductSelect.innerHTML = '';
+            inventory.forEach((item) => {
+                const option = document.createElement('option');
+                option.value = item.name;
+                option.textContent = `${item.name} - $${item.price.toFixed(2)} (C: ${item.quantity})`;
+                salesProductSelect.appendChild(option);
+            });
+        }
+
+        function updateMovementsTable() {
+            const movementsTableBody = document.querySelector('#movementsTable tbody');
+            movementsTableBody.innerHTML = '';
+            movements.forEach((movement) => {
+                const row = movementsTableBody.insertRow();
+                row.innerHTML = `
+                    <td>${movement.type}</td>
+                    <td>${movement.product}</td>
+                    <td>${movement.quantity}</td>
+                    <td>${movement.date}</td>
+                `;
+            });
+        }
+
+        function downloadReport() {
+            const csvContent = "data:text/csv;charset=utf-8," 
+                + "Tipo,Producto,Cantidad,Fecha\n" 
+                + movements.map(movement => `${movement.type},${movement.product},${movement.quantity},${movement.date}`).join("\n");
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "movimientos_inventario.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function previewImage(event) {
+            const imagePreview = document.getElementById('imagePreview');
+            imagePreview.src = URL.createObjectURL(event.target.files[0]);
+            imagePreview.style.display = 'block';
+        }
+
+        function editProduct(index) {
+            const item = inventory[index];
+            document.getElementById('productName').value = item.name;
+            document.getElementById('brand').value = item.brand;
+            document.getElementById('expiryDate').value = item.expiryDate;
+            document.getElementById('netContent').value = item.netContent;
+            document.getElementById('unitMeasure').value = item.unitMeasure;
+            document.getElementById('price').value = item.price;
+            document.getElementById('quantity').value = item.quantity;
+            document.getElementById('imagePreview').src = item.image;
+            document.getElementById('imagePreview').style.display = 'block';
+
+            // Remove the product from the inventory for editing
+            inventory.splice(index, 1);
+            updateInventoryTable();
+            updateSalesProductSelect();
+        }
+
+        function deleteProduct(index) {
+            inventory.splice(index, 1);
+            updateInventoryTable();
+            updateSalesProductSelect();
+        }
+    </script>
 </body>
 </html>
