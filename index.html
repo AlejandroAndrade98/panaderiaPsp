@@ -8,56 +8,105 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
+            padding: 0;
+            background-image: url('./mesa-cafe-fondo-borroso_861875-1051.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        
+        
+            color: #333;
         }
         h1, h2 {
-            color: #333;
+            text-align: center;
+            color: #ffffff;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 2.5em;
+            position: relative;
+        }
+        h1::after {
+            content: '';
+            width: 60px;
+            height: 5px;
+            background-color: #f4c10f;
+            display: block;
+            margin: 10px auto;
+            border-radius: 5px;
+        }
+        h2 {
+            font-size: 1.8em;
         }
         .container {
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 20px auto;
             padding: 20px;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background: linear-gradient(to bottom right, #2f211c, #855d43);
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
         form {
             margin-bottom: 20px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
         }
         label {
             display: block;
             margin: 10px 0 5px;
+            color: #555;
+            font-weight: bold;
         }
         input, select {
             width: 100%;
             padding: 10px;
             margin: 5px 0 15px;
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
             border-radius: 5px;
         }
+        input:focus, select:focus {
+            border-color: #6a11cb;
+            outline: none;
+            box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
+        }
         button {
-            padding: 10px 15px;
+            padding: 12px 18px;
             background-color: #28a745;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
         button:hover {
             background-color: #218838;
+            box-shadow: 0 5px 10px rgba(33, 136, 56, 0.3);
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
+            background: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 10px;
             text-align: left;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #1d1b1b;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
         }
         .responsive-table {
             overflow-x: auto;
@@ -66,6 +115,23 @@
             max-width: 100px;
             display: block;
             margin: 10px 0;
+        }
+        .download-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 15px 25px;
+            font-size: 1em;
+            background: #f4c10f;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .download-btn:hover {
+            background: #b49c42;
+            box-shadow: 0 5px 10px rgba(229, 181, 14, 0.3);
         }
     </style>
 </head>
@@ -120,7 +186,7 @@
                 </tbody>
             </table>
         </div>
-
+    
         <h2>Ventas</h2>
         <form id="salesForm">
             <label for="salesProduct">Selecciona un Producto:</label>
@@ -131,7 +197,7 @@
             <input type="number" id="salesQuantity" required>
             <button type="submit">Vender Producto</button>
         </form>
-
+    
         <h2>Movimientos de Inventario</h2>
         <div class="responsive-table">
             <table id="movementsTable">
@@ -148,158 +214,160 @@
                 </tbody>
             </table>
         </div>
-
-        <button onclick="downloadReport()">Descargar Informe</button>
+    
+        <button class="download-btn" onclick="downloadReport()">Descargar Informe</button>
     </div>
-
+    
     <script>
         const inventory = [];
         const movements = [];
-
+    
+        // Función para mostrar la vista previa de la imagen
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function() {
+                const imagePreview = document.getElementById('imagePreview');
+                imagePreview.src = reader.result;
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    
+        // Función para registrar un producto
         document.getElementById('productForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            const name = document.getElementById('productName').value;
+            
+            const productName = document.getElementById('productName').value;
             const brand = document.getElementById('brand').value;
             const expiryDate = document.getElementById('expiryDate').value;
             const netContent = document.getElementById('netContent').value;
             const unitMeasure = document.getElementById('unitMeasure').value;
             const price = parseFloat(document.getElementById('price').value);
             const quantity = parseInt(document.getElementById('quantity').value);
-            const image = document.getElementById('image').files[0];
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                inventory.push({
-                    name,
-                    brand,
-                    expiryDate,
-                    netContent,
-                    unitMeasure,
-                    price,
-                    quantity,
-                    image: e.target.result,
-                });
-                updateInventoryTable();
-                updateSalesProductSelect();
-                document.getElementById('productForm').reset();
-                document.getElementById('imagePreview').style.display = 'none';
+            const image = document.getElementById('imagePreview').src;
+    
+            const newProduct = {
+                productName,
+                brand,
+                expiryDate,
+                netContent,
+                unitMeasure,
+                price,
+                quantity,
+                image
             };
-            reader.readAsDataURL(image);
-        });
-
-        document.getElementById('salesForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const selectedProductIndex = document.getElementById('salesProduct').selectedIndex;
-            const quantitySold = parseInt(document.getElementById('salesQuantity').value);
-
-            if (quantitySold > inventory[selectedProductIndex].quantity) {
-                alert('No hay suficiente cantidad en el inventario.');
-                return;
-            }
-
-            const movement = {
-                type: 'Venta',
-                product: inventory[selectedProductIndex].name,
-                quantity: quantitySold,
-                date: new Date().toLocaleDateString()
-            };
-
-            movements.push(movement);
-            inventory[selectedProductIndex].quantity -= quantitySold;
-
-            updateInventoryTable();
-            updateMovementsTable();
-            document.getElementById('salesForm').reset();
-        });
-
-        function updateInventoryTable() {
-            const inventoryTableBody = document.querySelector('#inventoryTable tbody');
-            inventoryTableBody.innerHTML = '';
-            inventory.forEach((item, index) => {
-                const row = inventoryTableBody.insertRow();
-                row.innerHTML = `
-                    <td><img src="${item.image}" alt="${item.name}" style="max-width: 100px;"></td>
-                    <td>${item.name}</td>
-                    <td>${item.brand}</td>
-                    <td>${item.expiryDate}</td>
-                    <td>${item.netContent}</td>
-                    <td>${item.unitMeasure}</td>
-                    <td>$${item.price.toFixed(2)}</td>
-                    <td>$${(item.price * 1.19).toFixed(2)}</td>
-                    <td>${item.quantity}</td>
-                    <td><button onclick="editProduct(${index})">Editar</button><button onclick="deleteProduct(${index})">Eliminar</button></td>
-                `;
-            });
-        }
-
-        function updateSalesProductSelect() {
+    
+            // Añadir el producto al inventario
+            inventory.push(newProduct);
+    
+            // Agregar el producto al inventario en la tabla
+            const inventoryTable = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0];
+            const row = inventoryTable.insertRow();
+            row.innerHTML = `
+                <td><img src="${image}" alt="Imagen" class="image-preview" /></td>
+                <td>${productName}</td>
+                <td>${brand}</td>
+                <td>${expiryDate}</td>
+                <td>${netContent}</td>
+                <td>${unitMeasure}</td>
+                <td>${price}</td>
+                <td>${(price * 1.16).toFixed(2)}</td>
+                <td>${quantity}</td>
+                <td><button onclick="deleteProduct(${inventory.length - 1})">Eliminar</button></td>
+            `;
+    
+            // Agregar el producto al formulario de ventas
             const salesProductSelect = document.getElementById('salesProduct');
-            salesProductSelect.innerHTML = '';
-            inventory.forEach((item) => {
-                const option = document.createElement('option');
-                option.value = item.name;
-                option.textContent = `${item.name} - $${item.price.toFixed(2)} (C: ${item.quantity})`;
-                salesProductSelect.appendChild(option);
-            });
-        }
-
-        function updateMovementsTable() {
-            const movementsTableBody = document.querySelector('#movementsTable tbody');
-            movementsTableBody.innerHTML = '';
-            movements.forEach((movement) => {
-                const row = movementsTableBody.insertRow();
-                row.innerHTML = `
-                    <td>${movement.type}</td>
-                    <td>${movement.product}</td>
-                    <td>${movement.quantity}</td>
-                    <td>${movement.date}</td>
-                `;
-            });
-        }
-
-        function downloadReport() {
-            const csvContent = "data:text/csv;charset=utf-8," 
-                + "Tipo,Producto,Cantidad,Fecha\n" 
-                + movements.map(movement => `${movement.type},${movement.product},${movement.quantity},${movement.date}`).join("\n");
-
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "movimientos_inventario.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        function previewImage(event) {
-            const imagePreview = document.getElementById('imagePreview');
-            imagePreview.src = URL.createObjectURL(event.target.files[0]);
-            imagePreview.style.display = 'block';
-        }
-
-        function editProduct(index) {
-            const item = inventory[index];
-            document.getElementById('productName').value = item.name;
-            document.getElementById('brand').value = item.brand;
-            document.getElementById('expiryDate').value = item.expiryDate;
-            document.getElementById('netContent').value = item.netContent;
-            document.getElementById('unitMeasure').value = item.unitMeasure;
-            document.getElementById('price').value = item.price;
-            document.getElementById('quantity').value = item.quantity;
-            document.getElementById('imagePreview').src = item.image;
-            document.getElementById('imagePreview').style.display = 'block';
-
-            // Remove the product from the inventory for editing
-            inventory.splice(index, 1);
-            updateInventoryTable();
-            updateSalesProductSelect();
-        }
-
+            const option = document.createElement('option');
+            option.value = inventory.length - 1;
+            option.textContent = productName;
+            salesProductSelect.appendChild(option);
+    
+            // Limpiar el formulario de registro
+            document.getElementById('productForm').reset();
+            document.getElementById('imagePreview').style.display = 'none';
+        });
+    
+        // Función para eliminar un producto del inventario
         function deleteProduct(index) {
             inventory.splice(index, 1);
-            updateInventoryTable();
-            updateSalesProductSelect();
+            movements.push({
+                type: 'Eliminación',
+                product: inventory[index].productName,
+                quantity: inventory[index].quantity,
+                date: new Date().toLocaleString()
+            });
+    
+            // Re-renderizar la tabla de inventario
+            renderInventory();
         }
+    
+        // Función para renderizar el inventario
+        function renderInventory() {
+            const inventoryTable = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0];
+            inventoryTable.innerHTML = '';
+            
+            inventory.forEach((product, index) => {
+                const row = inventoryTable.insertRow();
+                row.innerHTML = `
+                    <td><img src="${product.image}" alt="Imagen" class="image-preview" /></td>
+                    <td>${product.productName}</td>
+                    <td>${product.brand}</td>
+                    <td>${product.expiryDate}</td>
+                    <td>${product.netContent}</td>
+                    <td>${product.unitMeasure}</td>
+                    <td>${product.price}</td>
+                    <td>${(product.price * 1.16).toFixed(2)}</td>
+                    <td>${product.quantity}</td>
+                    <td><button onclick="deleteProduct(${index})">Eliminar</button></td>
+                `;
+            });
+        }
+    
+        // Función para registrar la venta
+        document.getElementById('salesForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const salesProductIndex = document.getElementById('salesProduct').value;
+            const salesQuantity = parseInt(document.getElementById('salesQuantity').value);
+            
+            const product = inventory[salesProductIndex];
+            
+            if (salesQuantity <= 0 || salesQuantity > product.quantity) {
+                alert("La cantidad a vender no es válida.");
+                return;
+            }
+    
+            // Actualizar la cantidad en el inventario
+            product.quantity -= salesQuantity;
+            
+            // Registrar el movimiento de venta
+            movements.push({
+                type: 'Venta',
+                product: product.productName,
+                quantity: salesQuantity,
+                date: new Date().toLocaleString()
+            });
+    
+            // Añadir el movimiento a la tabla de movimientos
+            const movementsTable = document.getElementById('movementsTable').getElementsByTagName('tbody')[0];
+            const row = movementsTable.insertRow();
+            row.innerHTML = `
+                <td>Venta</td>
+                <td>${product.productName}</td>
+                <td>${salesQuantity}</td>
+                <td>${new Date().toLocaleString()}</td>
+            `;
+    
+            // Re-renderizar el inventario después de la venta
+            renderInventory();
+    
+            // Limpiar el formulario de ventas
+            document.getElementById('salesForm').reset();
+        });
     </script>
+    
+    
 </body>
 </html>
