@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventas - Croissaneria</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="logo">
+ <a href="index.html">
+            <img src="images/logo.jpg" alt="Logo Croissaneria" class="logo-img">
+</a>
+    </div>
+    <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="inventario.html">Inventario</a></li>
+        <li><a href="ventas.html" class="active">Ventas</a></li>
+    </ul>
+    <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</nav>
+
+<!-- Container Principal -->
+<div class="container">
+    <h1>Realizar Venta</h1>
+
+    <!-- Selección de Producto y Cantidad -->
+    <h2>Selecciona el Producto y la Cantidad</h2>
+    <form id="ventaForm" class="product-form">
+        <div class="form-group">
+            <label for="producto">Producto:</label>
+            <select id="producto" name="producto">
+                <!-- Aquí se agregarán los productos dinámicamente -->
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="cantidad">Cantidad:</label>
+            <input type="number" id="cantidad" name="cantidad" min="1" value="1" required>
+        </div>
+
+        <button type="button" class="btn" id="agregarCarrito">Agregar al Carrito</button>
+    </form>
+
+    <!-- Carrito de Compras -->
+    <h2>Carrito de Compras</h2>
+    <div class="product-list" id="carrito">
+        <table id="tablaCarrito" class="tabla-estilizada">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Total</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se llenará el carrito dinámicamente -->
+            </tbody>
+        </table>
+        <h3>Total: <span id="totalCompra">0</span></h3>
+    </div>
+
+    <!-- Resumen de la Compra -->
+    <h2>Resumen de la Compra</h2>
+    <div class="form-group">
+        <label for="nombreCliente">Nombre del Cliente:</label>
+        <input type="text" id="nombreCliente" name="nombreCliente" placeholder="Ej. Juan Pérez" required>
+    </div>
+    <div class="form-group">
+        <label for="cedulaCliente">Cédula del Cliente:</label>
+        <input type="text" id="cedulaCliente" name="cedulaCliente" placeholder="Ej. 1234567890" required>
+    </div>
+    <div class="form-group">
+        <label for="correoCliente">Correo del Cliente:</label>
+        <input type="email" id="correoCliente" name="correoCliente" placeholder="Ej. cliente@email.com" required>
+    </div>
+    <div class="form-group">
+        <label for="dineroRecibido">Dinero Recibido:</label>
+        <input type="number" id="dineroRecibido" name="dineroRecibido" required>
+    </div>
+    <div class="form-group">
+        <label for="cambio">Cambio:</label>
+        <input type="text" id="cambio" name="cambio" disabled>
+    </div>
+
+    <button type="button" class="btn" id="finalizarCompra">Finalizar Compra</button>
+<a href="informes.html">Ver Informe</a>
+</div>
+
+<script src="ventas.js"></script>
+</body>
+</html>

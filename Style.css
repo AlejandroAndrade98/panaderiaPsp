@@ -1,0 +1,548 @@
+/* Estilos Generales */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f1e7; /* Beige claro para fondo */
+}
+
+h1, h2, h3 {
+    color: #333; /* Gris oscuro para los textos principales */
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+button {
+    background-color: #ffdd57; /* Dorado suave */
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e6c13c; /* Dorado más oscuro */
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333; /* Fondo oscuro */
+    background-image: url('https://via.placeholder.com/1600x800/333333/FFFFFF?text=Texture'); /* Fondo con ligera textura */
+    color: white;
+    padding: 20px 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+.navbar .logo {
+    display: flex;
+    align-items: center;
+padding: 10px 15px;
+
+
+}
+
+.navbar .logo-img {
+    width: 180px;
+    height: auto;    
+    border-radius: 10px;
+    margin-right: 15px;
+border: 2px solid #F7B68A;
+
+}
+
+.navbar .logo-text h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.navbar .logo-text p {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #ffdd57; /* Dorado */
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li a {
+    font-size: 1rem;
+    color: #FCE0C8;
+    transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+    color: #ffdd57; /* Dorado */
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: #333;
+    margin: 3px 0;
+    transition: all 0.3s;
+}
+
+/* Hero Section */
+.hero {
+    background: url('images/Fondo.jpg') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #e4d4b9; /* Beige cálido */
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    font-weight: 700;
+color: #fff;
+text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+/* Botón Principal */
+.btn {
+    background-color: #ffdd57; /* Dorado */
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #e6c13c; /* Dorado más oscuro */
+}
+
+/* Estilo más específico para evitar sobrescritura */
+form#productForm .btn {
+    background-color: #FFD966 !important; /* Amarillo pastel */
+    color: #000 !important; /* Letra negra */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+form#productForm .btn:hover {
+    background-color: #FFC107 !important; /* Amarillo más intenso al pasar el cursor */
+}
+
+/* Sección de Productos Destacados */
+.featured-products {
+    padding: 40px 20px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.product-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.product-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 250px;
+}
+
+.product-card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.product-card h3 {
+    font-size: 1.2rem;
+    margin-top: 15px;
+}
+
+.product-card p {
+    font-size: 1.1rem;
+    color: #ffdd57; /* Dorado */
+}
+
+/* Sección de Resumen de Inventario */
+.inventory-summary {
+    background-color: #f4f4f4;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.summary-cards {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.summary-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 200px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.summary-card h3 {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.summary-card p {
+    font-size: 2rem;
+    color: #333;
+    font-weight: 700;
+}
+
+/* Pie de Página */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+
+/* Sección de Inventario */
+.inventory-form-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.inventory-form-container h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Formulario de Inventario */
+.inventory-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.inventory-form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.inventory-form .form-group label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.inventory-form .form-group input,
+.inventory-form .form-group select,
+.inventory-form .form-group textarea {
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.inventory-form .form-group input[type="file"] {
+    padding: 5px;
+}
+
+.inventory-form .form-group input[type="number"] {
+    width: 50%;
+}
+
+.inventory-form .form-group input[type="date"] {
+    width: 50%;
+}
+
+.inventory-form button {
+    padding: 12px 20px;
+    background-color: #ffdd57;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.inventory-form button:hover {
+    background-color: #e6c13c;
+}
+
+/* Productos Registrados */
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.product-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    width: 250px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.product-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.product-card h3 {
+    font-size: 1.2rem;
+    margin-top: 15px;
+    color: #333;
+}
+
+.product-card p {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 10px;
+}
+
+.product-card .product-price {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ffdd57;
+    margin-top: 10px;
+}
+
+.product-card .product-stock {
+    font-size: 1rem;
+    color: #333;
+    margin-top: 5px;
+}
+
+
+
+
+
+
+
+
+/*/*/*/*/*/*/*/*/
+
+/* Estilos generales */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+}
+
+h1, h2 {
+    color: #333;
+    text-align: center;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+}
+
+
+.navbar .nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.navbar .nav-links li {
+    margin: 0 10px;
+}
+
+.navbar .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.navbar .hamburger {
+    display: none;
+}
+
+.navbar .nav-links.show {
+    display: block;
+}
+
+.product-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.product-form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-form label {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.product-form input, .product-form select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.product-form button {
+    grid-column: span 2;
+    padding: 15px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.product-form button:hover {
+    background-color: #45a049;
+}
+
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.product-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    text-align: center;
+}
+
+.product-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.product-card h3 {
+    font-size: 20px;
+    color: #333;
+    margin: 10px 0;
+}
+
+.product-card p {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.product-card button {
+    background-color: #FF5733;
+    border: none;
+    padding: 10px;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.product-card button:hover {
+    background-color: #e04e24;
+}
+
+.product-card button.delete-btn {
+    background-color: #dc3545;
+}
+
+.product-card button.delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* Media queries para dispositivos pequeños */
+@media (max-width: 768px) {
+    .product-form {
+        grid-template-columns: 1fr;
+    }
+
+    .product-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product-card {
+        width: 90%;
+    }
+}
+.img-carrito {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+    a {
+        color: #4CAF50; /* Cambia el color del texto */
+        font-weight: bold; /* Cambia el peso de la letra */
+        text-decoration: none; /* Elimina el subrayado */
+    }
+
+    a:hover {
+        color: #45a049; /* Cambia el color al pasar el mouse */
+    }

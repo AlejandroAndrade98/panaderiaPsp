@@ -3,371 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventario de Cafetería</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-image: url('./mesa-cafe-fondo-borroso_861875-1051.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        
-        
-            color: #333;
-        }
-        h1, h2 {
-            text-align: center;
-            color: #ffffff;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-        h1 {
-            font-size: 2.5em;
-            position: relative;
-        }
-        h1::after {
-            content: '';
-            width: 60px;
-            height: 5px;
-            background-color: #f4c10f;
-            display: block;
-            margin: 10px auto;
-            border-radius: 5px;
-        }
-        h2 {
-            font-size: 1.8em;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background: linear-gradient(to bottom right, #2f211c, #855d43);
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        form {
-            margin-bottom: 20px;
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-        }
-        label {
-            display: block;
-            margin: 10px 0 5px;
-            color: #555;
-            font-weight: bold;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        input:focus, select:focus {
-            border-color: #6a11cb;
-            outline: none;
-            box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
-        }
-        button {
-            padding: 12px 18px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        button:hover {
-            background-color: #218838;
-            box-shadow: 0 5px 10px rgba(33, 136, 56, 0.3);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: #ffffff;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #1d1b1b;
-            color: white;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        .responsive-table {
-            overflow-x: auto;
-        }
-        .image-preview {
-            max-width: 100px;
-            display: block;
-            margin: 10px 0;
-        }
-        .download-btn {
-            display: block;
-            margin: 20px auto;
-            padding: 15px 25px;
-            font-size: 1em;
-            background: #f4c10f;
-            color: #333;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        .download-btn:hover {
-            background: #b49c42;
-            box-shadow: 0 5px 10px rgba(229, 181, 14, 0.3);
-        }
-    </style>
+    <title>Inventario de Cafetería - Croissaneria</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Gestión de Inventario de Cafetería</h1>
-        
-        <h2>Registrar Producto</h2>
-        <form id="productForm">
-            <label for="productName">Nombre del Producto:</label>
-            <input type="text" id="productName" required>
-            <label for="brand">Marca:</label>
-            <input type="text" id="brand" required>
-            <label for="expiryDate">Fecha de Vencimiento:</label>
-            <input type="date" id="expiryDate" required>
-            <label for="netContent">Contenido Neto:</label>
-            <input type="text" id="netContent" required>
-            <label for="unitMeasure">Unidad de Medida:</label>
-            <select id="unitMeasure">
-                <option value="g">Gramos</option>
-                <option value="ml">Mililitros</option>
-            </select>
-            <label for="price">Precio (sin IVA):</label>
-            <input type="number" id="price" required>
-            <label for="quantity">Cantidad:</label>
-            <input type="number" id="quantity" required>
-            <label for="image">Imagen del Producto:</label>
-            <input type="file" id="image" accept="image/*" onchange="previewImage(event)">
-            <img id="imagePreview" class="image-preview" src="" alt="Vista previa de la imagen" style="display:none;">
-            <button type="submit">Registrar Producto</button>
-        </form>
-        
-        <h2>Inventario</h2>
-        <div class="responsive-table">
-            <table id="inventoryTable">
-                <thead>
-                    <tr>
-                        <th>Imagen</th>
-                        <th>Nombre</th>
-                        <th>Marca</th>
-                        <th>Fecha de Vencimiento</th>
-                        <th>Contenido Neto</th>
-                        <th>Unidad de Medida</th>
-                        <th>Precio (sin IVA)</th>
-                        <th>Precio (con IVA)</th>
-                        <th>Cantidad</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Las filas de productos se llenarán aquí -->
-                </tbody>
-            </table>
+    <!-- Menú de Navegación -->
+    <nav class="navbar">
+        <div class="logo">
+<a href="index.html">
+            <img src="images/logo.jpg" alt="Logo Croissaneria" class="logo-img">
+</a>
+            <div class="logo-text">
+            </div>
         </div>
-    
-        <h2>Ventas</h2>
-        <form id="salesForm">
-            <label for="salesProduct">Selecciona un Producto:</label>
-            <select id="salesProduct" required>
-                <!-- Opciones llenadas desde el inventario -->
-            </select>
-            <label for="salesQuantity">Cantidad:</label>
-            <input type="number" id="salesQuantity" required>
-            <button type="submit">Vender Producto</button>
-        </form>
-    
-        <h2>Movimientos de Inventario</h2>
-        <div class="responsive-table">
-            <table id="movementsTable">
-                <thead>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Las filas de movimientos se llenarán aquí -->
-                </tbody>
-            </table>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="inventario.html">Inventario</a></li>
+            <li><a href="ventas.html">Ventas</a></li>
+        </ul>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
-    
-        <button class="download-btn" onclick="downloadReport()">Descargar Informe</button>
-    </div>
-    
+    </nav>
+
+    <!-- Sección de Bienvenida -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Bienvenido a La Croissaneria</h1>
+            <p>Disfruta de nuestros productos frescos y deliciosos, preparados con amor y los mejores ingredientes.</p>
+            <a href="inventario.html" class="btn">Ver Inventario</a>
+        </div>
+    </section>
+
+    <!-- Sección de Productos Destacados -->
+    <section class="featured-products">
+        <h2>Productos Destacados</h2>
+        <div class="product-cards">
+            <div class="product-card">
+                <img src="images/cafe.jpg" alt="Producto 1">
+                <h3>Café Espresso</h3>
+                <p>$2.500</p>
+                <a href="ventas.html" class="btn">Pedir Ahora</a>
+            </div>
+            <div class="product-card">
+                <img src="images/pastel.jpg" alt="Producto 2">
+                <h3>Pastel de Chocolate</h3>
+                <p>$3.900</p>
+                <a href="ventas.html" class="btn">Pedir Ahora</a>
+            </div>
+            <div class="product-card">
+                <img src="images/te.jpg" alt="Producto 3">
+                <h3>Te Verde</h3>
+                <p>$1.800</p>
+                <a href="ventas.html" class="btn">Pedir Ahora</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Gestión de Inventario -->
+    <section class="inventory-summary">
+        <h2>Resumen de Inventario</h2>
+        <div class="summary-cards">
+            <div class="summary-card">
+                <h3>Total de Productos</h3>
+                <p>50</p>
+            </div>
+            <div class="summary-card">
+                <h3>Productos Vendidos</h3>
+                <p>200</p>
+            </div>
+            <div class="summary-card">
+                <h3>Valor Total en Inventario</h3>
+                <p>$450.00</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pie de Página -->
+    <footer>
+        <p>&copy; 2024 Croissaneria. Todos los derechos reservados.</p>
+    </footer>
+
     <script>
-        const inventory = [];
-        const movements = [];
-    
-        // Función para mostrar la vista previa de la imagen
-        function previewImage(event) {
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            reader.onload = function() {
-                const imagePreview = document.getElementById('imagePreview');
-                imagePreview.src = reader.result;
-                imagePreview.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        }
-    
-        // Función para registrar un producto
-        document.getElementById('productForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            const productName = document.getElementById('productName').value;
-            const brand = document.getElementById('brand').value;
-            const expiryDate = document.getElementById('expiryDate').value;
-            const netContent = document.getElementById('netContent').value;
-            const unitMeasure = document.getElementById('unitMeasure').value;
-            const price = parseFloat(document.getElementById('price').value);
-            const quantity = parseInt(document.getElementById('quantity').value);
-            const image = document.getElementById('imagePreview').src;
-    
-            const newProduct = {
-                productName,
-                brand,
-                expiryDate,
-                netContent,
-                unitMeasure,
-                price,
-                quantity,
-                image
-            };
-    
-            // Añadir el producto al inventario
-            inventory.push(newProduct);
-    
-            // Agregar el producto al inventario en la tabla
-            const inventoryTable = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0];
-            const row = inventoryTable.insertRow();
-            row.innerHTML = `
-                <td><img src="${image}" alt="Imagen" class="image-preview" /></td>
-                <td>${productName}</td>
-                <td>${brand}</td>
-                <td>${expiryDate}</td>
-                <td>${netContent}</td>
-                <td>${unitMeasure}</td>
-                <td>${price}</td>
-                <td>${(price * 1.16).toFixed(2)}</td>
-                <td>${quantity}</td>
-                <td><button onclick="deleteProduct(${inventory.length - 1})">Eliminar</button></td>
-            `;
-    
-            // Agregar el producto al formulario de ventas
-            const salesProductSelect = document.getElementById('salesProduct');
-            const option = document.createElement('option');
-            option.value = inventory.length - 1;
-            option.textContent = productName;
-            salesProductSelect.appendChild(option);
-    
-            // Limpiar el formulario de registro
-            document.getElementById('productForm').reset();
-            document.getElementById('imagePreview').style.display = 'none';
-        });
-    
-        // Función para eliminar un producto del inventario
-        function deleteProduct(index) {
-            inventory.splice(index, 1);
-            movements.push({
-                type: 'Eliminación',
-                product: inventory[index].productName,
-                quantity: inventory[index].quantity,
-                date: new Date().toLocaleString()
-            });
-    
-            // Re-renderizar la tabla de inventario
-            renderInventory();
-        }
-    
-        // Función para renderizar el inventario
-        function renderInventory() {
-            const inventoryTable = document.getElementById('inventoryTable').getElementsByTagName('tbody')[0];
-            inventoryTable.innerHTML = '';
-            
-            inventory.forEach((product, index) => {
-                const row = inventoryTable.insertRow();
-                row.innerHTML = `
-                    <td><img src="${product.image}" alt="Imagen" class="image-preview" /></td>
-                    <td>${product.productName}</td>
-                    <td>${product.brand}</td>
-                    <td>${product.expiryDate}</td>
-                    <td>${product.netContent}</td>
-                    <td>${product.unitMeasure}</td>
-                    <td>${product.price}</td>
-                    <td>${(product.price * 1.16).toFixed(2)}</td>
-                    <td>${product.quantity}</td>
-                    <td><button onclick="deleteProduct(${index})">Eliminar</button></td>
-                `;
-            });
-        }
-    
-        // Función para registrar la venta
-        document.getElementById('salesForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            const salesProductIndex = document.getElementById('salesProduct').value;
-            const salesQuantity = parseInt(document.getElementById('salesQuantity').value);
-            
-            const product = inventory[salesProductIndex];
-            
-            if (salesQuantity <= 0 || salesQuantity > product.quantity) {
-                alert("La cantidad a vender no es válida.");
-                return;
-            }
-    
-            // Actualizar la cantidad en el inventario
-            product.quantity -= salesQuantity;
-            
-            // Registrar el movimiento de venta
-            movements.push({
-                type: 'Venta',
-                product: product.productName,
-                quantity: salesQuantity,
-                date: new Date().toLocaleString()
-            });
-    
-            // Añadir el movimiento a la tabla de movimientos
-            const movementsTable = document.getElementById('movementsTable').getElementsByTagName('tbody')[0];
-            const row = movementsTable.insertRow();
-            row.innerHTML = `
-                <td>Venta</td>
-                <td>${product.productName}</td>
-                <td>${salesQuantity}</td>
-                <td>${new Date().toLocaleString()}</td>
-            `;
-    
-            // Re-renderizar el inventario después de la venta
-            renderInventory();
-    
-            // Limpiar el formulario de ventas
-            document.getElementById('salesForm').reset();
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
         });
     </script>
-    
-    
 </body>
 </html>

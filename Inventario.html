@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario - Croissaneria</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="logo">
+<a href="index.html">
+            <img src="images/logo.jpg" alt="Logo Croissaneria" class="logo-img">
+</a>
+        <div class="logo-text">
+        </div>
+    </div>
+    <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="inventario.html">Inventario</a></li>
+        <li><a href="ventas.html">Ventas</a></li>
+    </ul>
+    <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</nav>
+
+<!-- Container Principal -->
+<div class="container">
+    <h1>Gestiona tu Inventario</h1>
+    <h2>Registrar o Editar Producto</h2>
+
+    <!-- Formulario de Registro o Edición -->
+    <form id="productForm" class="product-form" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="productName">Nombre del Producto:</label>
+            <input type="text" id="productName" name="productName" placeholder="Ej. Café Espresso" required>
+        </div>
+
+        <div class="form-group">
+            <label for="brand">Marca:</label>
+            <input type="text" id="brand" name="brand" placeholder="Ej. Starbucks" required>
+        </div>
+
+        <div class="form-group">
+            <label for="expiryDate">Fecha de Vencimiento:</label>
+            <input type="date" id="expiryDate" name="expiryDate">
+        </div>
+
+        <div class="form-group">
+            <label for="netContent">Contenido Neto:</label>
+            <input type="text" id="netContent" name="netContent" placeholder="Ej. 250g" required>
+        </div>
+
+        <div class="form-group">
+            <label for="unitMeasure">Unidad de Medida:</label>
+            <select id="unitMeasure" name="unitMeasure">
+                <option value="g">Gramos</option>
+                <option value="ml">Mililitros</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Precio:</label>
+            <input type="number" id="price" name="price" placeholder="Ej. 2500" required>
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">Cantidad:</label>
+            <input type="number" id="quantity" name="quantity" placeholder="Ej. 50" required>
+        </div>
+
+        <div class="form-group">
+            <label for="productImage">Imagen del Producto:</label>
+            <input type="file" id="productImage" name="productImage">
+        </div>
+
+        <button type="submit" class="btn">Registrar Producto</button>
+    </form>
+
+    <h2>Productos Disponibles</h2>
+    <div class="product-list" id="productList">
+        <!-- Productos iniciales pueden ser mostrados aquí -->
+    </div>
+</div>
+
+<!-- Script para Navbar y Menú Móvil -->
+<script src="script.js"></script>
+<script>
+    // Aquí va el script JS que has utilizado anteriormente
+</script>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informes - Croissaneria</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos personalizados para el diseño de la página de informes */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #F7B68A;
+            color: #404040;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .container {
+            margin: 20px;
+        }
+        .btn {
+            background-color: #F7B68A;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover {
+            background-color: #404040;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="logo">
+        <a href="index.html">
+            <img src="images/logo.jpg" alt="Logo Croissaneria" class="logo-img">
+</a>
+    </div>
+    <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="inventario.html">Inventario</a></li>
+        <li><a href="ventas.html">Ventas</a></li>
+    </ul>
+    <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</nav>
+
+<!-- Container Principal -->
+<div class="container">
+    <h1>Informe de Ventas Realizadas</h1>
+    <table id="tablaInformes">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th>Cédula</th>
+                <th>Correo</th>
+                <th>Productos</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Los datos de las ventas se cargarán aquí dinámicamente -->
+        </tbody>
+    </table>
+
+    <a href="#" class="btn" id="descargarExcel">Descargar en Excel</a>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ventasRealizadas = JSON.parse(localStorage.getItem('ventasRealizadas')) || [];
+
+        const tablaInformes = document.getElementById('tablaInformes').querySelector('tbody');
+
+        // Mostrar las ventas en la tabla
+        ventasRealizadas.forEach((venta) => {
+            const fila = document.createElement('tr');
+            const productos = venta.productos.map((producto) => `${producto.nombre} x${producto.cantidad}`).join(', ');
+            fila.innerHTML = `
+                <td>${venta.fecha}</td>
+                <td>${venta.cliente.nombre}</td>
+                <td>${venta.cliente.cedula}</td>
+                <td>${venta.cliente.correo}</td>
+                <td>${productos}</td>
+                <td>$${venta.total}</td>
+            `;
+            tablaInformes.appendChild(fila);
+        });
+
+        // Función para descargar los informes en formato Excel
+        document.getElementById('descargarExcel').addEventListener('click', function () {
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.table_to_sheet(document.getElementById('tablaInformes'));
+            XLSX.utils.book_append_sheet(wb, ws, 'Informe de Ventas');
+            XLSX.writeFile(wb, 'Informe_de_Ventas.xlsx');
+        });
+    });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+</body>
+</html>
